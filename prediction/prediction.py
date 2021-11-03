@@ -2,7 +2,7 @@
 
 def main():
     while True:
-        print('Mock Prediction Service')
+        print('Mock Prediction Service other branch')
 
 
 main()
