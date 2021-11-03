@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  cvt-prediction:
+    build: prediction
+
+  video-acq:
+    build: video_acq
