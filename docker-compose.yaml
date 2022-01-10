@@ -1,8 +1,22 @@
-version: "3.9"
+version: "2.3"
 
 services:
-  cvt-prediction:
+  gaze-object-prediction:
     build: prediction
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - DISPLAY
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    devices:
+      - /dev/video0:/dev/video0
+    ipc: host
 
-  video-acq:
-    build: video_acq
+
+
+#  video-acq:
+#    build: video_acq
+#
+#  gaze-client:
+#    build: gaze_client
