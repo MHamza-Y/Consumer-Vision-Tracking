@@ -16,15 +16,18 @@ from pre_processing import detect_face, get_face_rect_xy, get_eye_coordinates, n
 class GazePointDetector:
 
     def __init__(self, pretrained_dict_path='./pretrained_model.pkl'):
+        print('Initializing GazeNet')
         self.net = GazeNet()
         self.net = DataParallel(self.net)
         self.net.cuda()
-
+        print('Loading Dict')
         pretrained_dict = torch.load(pretrained_dict_path)
         model_dict = self.net.state_dict()
         pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
         model_dict.update(pretrained_dict)
         self.net.load_state_dict(model_dict)
+        print('Dict Loaded')
+        print('Model Initialization Complete')
 
     def generate_data_field(self, eye_point):
         """eye_point is (x, y) and between 0 and 1"""

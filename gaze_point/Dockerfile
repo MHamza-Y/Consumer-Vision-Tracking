@@ -10,6 +10,6 @@ RUN pip install -r requirements.txt
 RUN apt-get install python3-pyqt5 -y
 COPY . .
 
-CMD python inference.py
+CMD python inference_service.py
 
 
