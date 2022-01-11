@@ -1,5 +1,12 @@
+import socket
 
-def main():
-    print('Mock video acq service')
+import cv2
+from imagezmq import imagezmq
 
-main()
+sender = imagezmq.ImageSender(connect_to='tcp://*:5556', REQ_REP=False)
+rpi_name = socket.gethostname()
+
+cap = cv2.VideoCapture(0)
+while True:
+    ret, img = cap.read()
+    sender.send_image(rpi_name, img)

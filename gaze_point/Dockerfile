@@ -8,6 +8,9 @@ RUN pip uninstall --yes sphinxcontrib-qthelp
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN apt-get install python3-pyqt5 -y
+COPY resnet.py .
+COPY download_resnet.py .
+RUN python download_resnet.py
 COPY . .
 
 CMD python inference_service.py

@@ -1,4 +1,4 @@
-version: "2.3"
+version: "3.5"
 
 services:
   gaze-point-prediction:
@@ -6,28 +6,43 @@ services:
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
+    ipc: host
+    networks:
+      - proxynet
+    ports:
+      - "5555:5555"
+
+  video-acq:
+    build: video_acq
+    devices:
+      - /dev/video0:/dev/video0
+    networks:
+      - proxynet
+    ports:
+      - "5556:5556"
+
+  gaze-object-detect:
+    build: gaze_object
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ipc: host
+    networks:
+      - proxynet
+    ports:
+      - "5557:5557"
+
+  gaze-client:
+    build: gaze_client
+    environment:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     ipc: host
-    network_mode: host
+    networks:
+      - proxynet
 
+networks:
+  proxynet:
+    name: gaze_services_network
 
-
-#  video-acq:
-#    build: video_acq
-#environment:
-#      - DISPLAY=unix$DISPLAY
-#    volumes:
-#      - ./:/webcam
-#      - /dev/video0:/dev/video0
-#      - /tmp/.X11-unix:/tmp/.X11-unix
-  gaze-client:
-    build: gaze_client
-    runtime: nvidia
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-    devices:
-      - /dev/video0:/dev/video0
-    ipc: host
-    network_mode: host

@@ -1,14 +1,23 @@
 import socket
 
-import cv2
 from imagezmq import imagezmq
+import time
 
-sender = imagezmq.ImageSender(connect_to='tcp://gaze-point-prediction:5555')
+
+gaze_point_req_sender = imagezmq.ImageSender(connect_to='tcp://gaze-point-prediction:5555')
+object_detect_req_sender = imagezmq.ImageSender(connect_to='tcp://gaze-object-detect:5557')
+acq_image_hub = imagezmq.ImageHub(open_port='tcp://video-acq:5556', REQ_REP=False)
 rpi_name = socket.gethostname()
 while True:
-    print('Reading Frame')
-    cap = cv2.VideoCapture(0)
-    ret, img = cap.read()
-    print('Sending Image to Gaze Point Prediction Service')
-    gaze_points = sender.send_image_reqrep(rpi_name, img)
-    print(gaze_points)
+    start_time = time.time()
+    # Reading Frame from acq service
+    rpi_name, image = acq_image_hub.recv_image()
+    print('Image Received')
+    # Sending Image to Gaze Point Prediction Service
+    gaze_points = gaze_point_req_sender.send_image_reqrep(rpi_name, image)
+    object_predictions = object_detect_req_sender.send_image_reqrep(rpi_name, image)
+
+    end_time = time.time()
+    # Gaze Points
+    print(object_predictions)
+    print(f'Fps:{1/(end_time-start_time)}')
