@@ -164,7 +164,6 @@ def draw_result(im, eye, heatmap, gaze_point):
     heatmap = (0.8 * heatmap.astype(np.float32) + 0.2 * im.astype(np.float32)).astype(np.uint8)
     img = np.concatenate((im, heatmap), axis=1)
 
-    # cv2.imwrite('tmp.png', img)
 
     return img
 

@@ -1,22 +1,29 @@
 version: "2.3"
 
 services:
-  gaze-object-prediction:
-    build: prediction
+  gaze-point-prediction:
+    build: gaze_point
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
-      - DISPLAY
+      - DISPLAY=${DISPLAY}
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix
     devices:
       - /dev/video0:/dev/video0
     ipc: host
+    network_mode: host
 
 
 
 #  video-acq:
 #    build: video_acq
-#
+#environment:
+#      - DISPLAY=unix$DISPLAY
+#    volumes:
+#      - ./:/webcam
+#      - /dev/video0:/dev/video0
+#      - /tmp/.X11-unix:/tmp/.X11-unix
 #  gaze-client:
 #    build: gaze_client
+
