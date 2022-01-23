@@ -2,7 +2,9 @@ version: "3.5"
 
 services:
   gaze-point-prediction:
-    build: gaze_point
+    build:
+      context: gaze_point
+      dockerfile: Dockerfile.nano
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -13,16 +15,16 @@ services:
       - "5555:5555"
 
   video-acq:
-    build: video_acq
-    devices:
-      - /dev/video0:/dev/video0
+    build: nano_vid_acq
     networks:
       - proxynet
     ports:
       - "5556:5556"
 
   yolo-service:
-    build: yolo_service
+    build:
+      context: yolo_service
+      dockerfile: Dockerfile.nano
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -45,4 +47,3 @@ services:
 networks:
   proxynet:
     name: gaze_services_network
-

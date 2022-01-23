@@ -1,8 +1,3 @@
-import os
-import numpy as np
-import cv2
-from skimage import io
-import imutils
 import dlib
 from imutils import face_utils
 

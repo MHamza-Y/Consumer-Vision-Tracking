@@ -5,12 +5,25 @@ from gazenet import GazeNet
 import numpy as np
 import cv2
 from PIL import Image
-
+from torchvision import transforms
 import operator
 
-from utilss import data_transforms
 
 from pre_processing import detect_face, get_face_rect_xy, get_eye_coordinates, normalized_xy
+
+
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+    'test': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+}
 
 
 class GazePointDetector:
