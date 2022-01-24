@@ -12,6 +12,5 @@ while True:
     rpi_name, image = image_hub.recv_image()
     # Getting Gaze Points
     results = model(image)
-    response = json.dumps(results.pandas().xyxy[0].to_json(orient="records"))
-    response = response.encode('ascii')
-    image_hub.send_reply(response)
+    results_json = results.pandas().xyxy[0].to_json(orient="records").encode('ascii')
+    image_hub.send_reply(results_json)

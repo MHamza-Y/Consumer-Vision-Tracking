@@ -1,1 +1,2 @@
 imagezmq
+opencv-python

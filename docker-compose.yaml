@@ -12,6 +12,13 @@ services:
     ports:
       - "5555:5555"
 
+  gaze-object:
+      build: gaze_object
+      ipc: host
+      networks:
+        - proxynet
+
+
   video-acq:
     build: video_acq
     devices:
@@ -41,6 +48,7 @@ services:
     ipc: host
     networks:
       - proxynet
+
 
 networks:
   proxynet:

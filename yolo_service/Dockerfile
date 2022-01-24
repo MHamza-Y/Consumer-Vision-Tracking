@@ -6,4 +6,4 @@ COPY requirements.txt .
 RUN pip install -qr https://raw.githubusercontent.com/ultralytics/yolov5/master/requirements.txt && python download_yolo.py && pip install -r requirements.txt
 COPY . .
 
-CMD python gaze_object_detection_service.py
+CMD python -u gaze_object_detection_service.py

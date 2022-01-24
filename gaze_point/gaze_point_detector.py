@@ -8,9 +8,7 @@ from PIL import Image
 from torchvision import transforms
 import operator
 
-
 from pre_processing import detect_face, get_face_rect_xy, get_eye_coordinates, normalized_xy
-
 
 data_transforms = {
     'train': transforms.Compose([
@@ -116,5 +114,11 @@ class GazePointDetector:
             mean_eye = tuple(map(operator.add, left_eye, right_eye))
             mean_eye = tuple(xy / 2 for xy in mean_eye)
             heatmap, p_x, p_y = self.make_pred(self.net, img, mean_eye, points)
+            p_x, p_y = self.normalized_xy_to_standard(img, p_x, p_y)
             gazed_points.append({'x': p_x, 'y': p_y})
+
         return gazed_points
+
+    def normalized_xy_to_standard(self, img, x, y):
+        h, w, _ = img.shape
+        return x * w, y * h
