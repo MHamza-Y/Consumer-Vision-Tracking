@@ -11,6 +11,8 @@ def get_object_on_xy(x, y, objects):
 
         if xmin <= x <= xmax and ymin <= y <= ymax and distance_from_center < last_dist_from_center:
             objects_on_point = obj
+            objects_on_point['x_gaze_point'] = int(x)
+            objects_on_point['y_gaze_point'] = int(y)
             last_dist_from_center = distance_from_center
 
     return objects_on_point
@@ -20,6 +22,9 @@ def get_gazed_object(gaze_points, objects):
     gaze_objs = []
     for gaze_point in gaze_points:
         x, y = gaze_point['x'], gaze_point['y']
-        gaze_objs.append(get_object_on_xy(x=x, y=y, objects=objects))
+        obj = get_object_on_xy(x=x, y=y, objects=objects)
+        print('a',obj)
+        if obj:
+            gaze_objs.append(obj)
 
     return gaze_objs
