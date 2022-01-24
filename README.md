@@ -4,9 +4,11 @@
 Make sure following are installed on your system
 ### Hardware
 - Nvidia GPU (if not running on jetson)
+- Built in webcam
 
 or
 - Jetson Nano
+- imx219 camera
 
 ### Software
 - Linux/Ubuntu
