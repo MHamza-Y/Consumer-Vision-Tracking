@@ -40,8 +40,6 @@ while True:
     gaze_object_dict = json.loads(gaze_object_resp)
     print(gaze_object_dict)
     outline_obj_on_image(image, gaze_object_dict)
-    #save_results_payload = {'gaze_points': gaze_points, 'gaze_object': object_predictions}
-    #save_results_payload = json.dumps(save_results_payload).encode('ascii')
     save_results_socket.send(gaze_object_resp)
     save_results_socket.recv()
 

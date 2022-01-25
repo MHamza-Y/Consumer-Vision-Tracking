@@ -14,6 +14,20 @@ services:
     ports:
       - "5555:5555"
 
+  gaze-object:
+    build: gaze_object
+    ipc: host
+    networks:
+      - proxynet
+
+  save-results-usb:
+    build: save_results_usb
+    volumes:
+      - /media/${USER}:/storage/
+    #privileged: true
+    networks:
+      - proxynet
+
   video-acq:
     build: nano_vid_acq
     networks:

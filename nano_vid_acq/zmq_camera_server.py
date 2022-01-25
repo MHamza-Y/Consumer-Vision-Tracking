@@ -18,7 +18,8 @@ class GstCamera(object):
 
         print(sensor_mode)
         GST_STRING = 'nvarguscamerasrc sensor-mode={sensor_mode} ' \
-                     '! video/x-raw(memory:NVMM), width={capture_width}, height={capture_height}, format=(string)NV12, framerate=(fraction){fps}/1 !' \
+                     '! video/x-raw(memory:NVMM), width={capture_width}, height={capture_height}, format=(' \
+                     'string)NV12, framerate=(fraction){fps}/1 !' \
                      ' nvvidconv ' \
                      '! video/x-raw, width=(int){width}, height=(int){height}, format=(string)BGRx !' \
                      ' videoconvert ' \
@@ -32,7 +33,6 @@ class GstCamera(object):
             capture_height=capture_height
         )
         print(GST_STRING)
-
         self.pipeline = Gst.parse_launch(GST_STRING)
 
         appsink = self.pipeline.get_by_name('sink')
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     context = zmq.Context()
     socket = context.socket(zmq.PUB)
-    #     socket.setsockopt(zmq.CONFLATE, 1)  # latest 1 message
+    socket.setsockopt(zmq.CONFLATE, 1)  # latest 1 message
     socket.bind("tcp://*:%d" % args.port)
 
     camera = GstCamera(
